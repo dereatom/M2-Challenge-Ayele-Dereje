@@ -83,7 +83,6 @@ public class MathsControllerTest {
 
     }
 
-
     @Test
     public void shouldReturnNewMultiplyOnPostRequest() throws Exception{
 
@@ -109,7 +108,6 @@ public class MathsControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().json(outputJson));
-
     }
 
     @Test

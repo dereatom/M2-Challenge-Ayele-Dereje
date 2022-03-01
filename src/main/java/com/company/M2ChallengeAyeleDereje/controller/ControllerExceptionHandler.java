@@ -18,13 +18,9 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ResponseEntity<List<CustomErrorResponse>> newResponseErrors(MethodArgumentNotValidException e) {
 
-        // BindingResult holds the validation errors
         BindingResult result = e.getBindingResult();
-
-        // Validation errors are stored in FieldError objects
         List<FieldError> fieldErrors = result.getFieldErrors();
 
-        // Translate the FieldErrors to CustomErrorResponse
         List<CustomErrorResponse> errorResponseList = new ArrayList<>();
 
         for (FieldError fieldError : fieldErrors) {
@@ -34,7 +30,6 @@ public class ControllerExceptionHandler {
             errorResponseList.add(errorResponse);
         }
 
-        // Create and return the ResponseEntity
         ResponseEntity<List<CustomErrorResponse>> responseEntity = new ResponseEntity<>(errorResponseList, HttpStatus.UNPROCESSABLE_ENTITY);
         return responseEntity;
     }

@@ -7,19 +7,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MathsController {
 
-
   @RequestMapping(value = "/add", method = RequestMethod.POST)
   @ResponseStatus(value = HttpStatus.CREATED)
   public Maths createMathsAdd(@RequestBody Maths maths) {
     maths.setAnswer(maths.getOperand1() + maths.getOperand2());
     return maths;
-
   }
 
   @RequestMapping(value = "/divide", method = RequestMethod.POST)
   @ResponseStatus(value = HttpStatus.CREATED)
   public Maths createMathsDivide(@RequestBody Maths divide) {
-
     divide.setAnswer(divide.getOperand1() / divide.getOperand2());
     return divide;
 
@@ -28,7 +25,6 @@ public class MathsController {
   @RequestMapping(value = "/multiply", method = RequestMethod.POST)
   @ResponseStatus(value = HttpStatus.CREATED)
   public Maths createMathsMultiply(@RequestBody Maths multiply) {
-
     multiply.setAnswer(multiply.getOperand1() * multiply.getOperand2());
     return multiply;
 

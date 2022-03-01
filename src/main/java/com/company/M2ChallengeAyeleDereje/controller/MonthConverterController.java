@@ -1,10 +1,8 @@
 package com.company.M2ChallengeAyeleDereje.controller;
 
-
 import com.company.M2ChallengeAyeleDereje.model.Month;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,7 +11,6 @@ import java.util.Random;
 
 @RestController
 public class MonthConverterController {
-
 /*    Month converter controller...................*/
     private static List<Month> monthList = new ArrayList<>(Arrays.asList(
             new Month("January", 1),
@@ -42,7 +39,6 @@ public class MonthConverterController {
 
            }
        return foundMonth;
-
    }
 
 /*  GET a Random month controller .....................*/
@@ -53,12 +49,10 @@ public class MonthConverterController {
         int min = 1;
         Random rd =  new Random();
         int randomNumber = rd.nextInt((max - min) + 1) + min;
-
         Month month = new Month();
         month.setMonthNumber(randomNumber);
 
         switch (randomNumber) {
-
             case 1:
                 month.setName("January");
                 break;
