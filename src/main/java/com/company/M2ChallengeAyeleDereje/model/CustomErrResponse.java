@@ -12,8 +12,7 @@ public class CustomErrResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     LocalDateTime timestamp;
 
-    public CustomErrResponse() {
-    }
+    public CustomErrResponse() {}
 
     public CustomErrResponse(String errorCode, String errorMsg) {
         this.errCode = errCode;

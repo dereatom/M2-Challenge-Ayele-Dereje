@@ -39,8 +39,7 @@ public class MonthConverterController {
            if(monthNumber <1 || monthNumber >12){
                throw new IllegalArgumentException("Incorrect month number entry");
            }
-
-           }
+       }
        return foundMonth;
    }
 

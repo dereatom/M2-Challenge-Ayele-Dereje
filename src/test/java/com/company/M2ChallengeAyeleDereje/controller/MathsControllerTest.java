@@ -7,12 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import java.util.HashMap;
+import java.util.Map;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -58,6 +58,22 @@ public class MathsControllerTest {
     }
 
     @Test
+    public void shouldReturn422ErrorForInvalidAddRequest() throws Exception {
+        Map<String, String> inputMaths = new HashMap<>();
+        inputMaths.put("operand1", "4");
+        inputMaths.put("operand2", "This is not String");
+
+        String inputJson = mapper.writeValueAsString(inputMaths);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/add")
+                                .content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     public void ShouldReturnNewDivideOnPostRequest() throws Exception {
         Maths inputMaths = new Maths();
         inputMaths.setOperand1(500);
@@ -85,29 +101,19 @@ public class MathsControllerTest {
     }
 
     @Test
-    public void shouldError422OutMissingOperandAdd() throws Exception{
-        Maths inputMath = new Maths();
-        inputMath.setOperand1(14);
-        inputMath.getOperand2();
-        inputMath.setOperation("add");
-        String outputJson = mapper.writeValueAsString(inputMath);
+    public void shouldReturn422ErrorForInvalidDivideRequest() throws Exception {
+        Map<String, String> inputMaths = new HashMap<>();
+        inputMaths.put("operand1", "20");
+        inputMaths.put("operand2", "This is not String");
 
-        mockMvc.perform(post("/divide")
-                        .content(outputJson)
-                        .contentType(MediaType.APPLICATION_JSON)
+        String inputJson = mapper.writeValueAsString(inputMaths);
 
-                )
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/divide")
+                                .content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
-    }
-
-    @Test
-    public void shouldReturnError422ForOperandZero() throws Exception {
-        assertThrows(ArithmeticException.class, () -> {
-
-            int answer = 10 / 0;
-        });
-
     }
 
     @Test
@@ -136,6 +142,21 @@ public class MathsControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().json(outputJson));
     }
+    @Test
+    public void shouldReturn422ErrorForInvalidMultiplyRequest() throws Exception {
+        Map<String, String> inputMaths = new HashMap<>();
+        inputMaths.put("operand1", "100");
+        inputMaths.put("operand2", "This is not String");
+
+        String inputJson = mapper.writeValueAsString(inputMaths);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/multiply")
+                                .content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
 
     @Test
     public void shouldReturnSubtractOnPostRequest() throws Exception{
@@ -162,6 +183,21 @@ public class MathsControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(content().json(outputJson));
+    }
+    @Test
+    public void shouldReturn422ErrorForInvalidRequestSubtract() throws Exception {
+        Map<String, String> inputMaths = new HashMap<>();
+        inputMaths.put("operand1", "78");
+        inputMaths.put("operand2", "This is not String");
+
+        String inputJson = mapper.writeValueAsString(inputMaths);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/subtract")
+                                .content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 
 }

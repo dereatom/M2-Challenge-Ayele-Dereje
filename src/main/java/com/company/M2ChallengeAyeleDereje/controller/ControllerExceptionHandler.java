@@ -1,8 +1,8 @@
 package com.company.M2ChallengeAyeleDereje.controller;
-
 import com.company.M2ChallengeAyeleDereje.model.CustomErrResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,7 +30,6 @@ public class ControllerExceptionHandler {
             errResponse.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
             errorResponseList.add(errResponse);
         }
-
         ResponseEntity<List<CustomErrResponse>> responseEntity = new ResponseEntity<>(errorResponseList, HttpStatus.UNPROCESSABLE_ENTITY);
         return responseEntity;
     }
@@ -44,6 +43,14 @@ public class ControllerExceptionHandler {
         ResponseEntity<CustomErrResponse> responseEntity = new ResponseEntity<>(err, HttpStatus.UNPROCESSABLE_ENTITY);
         return responseEntity;
     }
-
+    @ExceptionHandler(value = HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<CustomErrResponse> notIntegerException(HttpMessageNotReadableException e) {
+        CustomErrResponse error = new CustomErrResponse(HttpStatus.UNPROCESSABLE_ENTITY.toString(), e.getMessage());
+        error.setStatus((HttpStatus.UNPROCESSABLE_ENTITY.value()));
+        error.setTimestamp(LocalDateTime.now());
+        ResponseEntity<CustomErrResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        return responseEntity;
+    }
 
 }

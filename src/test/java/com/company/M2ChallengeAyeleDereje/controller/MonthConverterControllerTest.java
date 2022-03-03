@@ -7,12 +7,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.HashMap;
-import java.util.Map;
-
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,11 +29,11 @@ public class MonthConverterControllerTest {
 
     @Test
     public void shouldReturnMonthByMonthNumber() throws Exception{
-        Month outputMonth = new Month();
-        outputMonth.setMonthNumber(5);
-        outputMonth.setName("May");
+        Month inputMonth = new Month();
+        inputMonth.setMonthNumber(5);
+        inputMonth.setName("May");
 
-        String outputJson = mapper.writeValueAsString(outputMonth);
+        String outputJson = mapper.writeValueAsString(inputMonth);
 
         mockMvc.perform(get("/month/5"))
                 .andDo(print())
@@ -43,19 +41,21 @@ public class MonthConverterControllerTest {
                 .andExpect(content().json(outputJson));
     }
 
-//    @Test
-//    public void shouldReturn422Error() throws Exception{
-//        Month outputMonth = new Month();
-//        outputMonth.getMonthNumber();
-//
-//        String outputJson = mapper.writeValueAsString(outputMonth)
-//
-//        mockMvc.perform("")
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(outputJson));
+    @Test
+    public void shouldReturn422Error() throws Exception{
+        Month inputMonth = new Month();
+        inputMonth.getMonthNumber();
+        inputMonth.getName();
+        String inputJson = mapper.writeValueAsString(inputMonth);
 
-//    }
+       mockMvc.perform(
+         MockMvcRequestBuilders.get("/month/monthNumber")
+         .content(inputJson)
+                                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isUnprocessableEntity());
+
+    }
 
     @Test
     public void shouldReturnRandomMonth() throws Exception{
