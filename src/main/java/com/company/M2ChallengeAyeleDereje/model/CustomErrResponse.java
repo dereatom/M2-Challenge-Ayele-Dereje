@@ -4,36 +4,28 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public class CustomErrorResponse {
+public class CustomErrResponse {
 
-    String errorMsg;
+    String errMsg;
     int status;
-    String errorCode;
+    String errCode;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     LocalDateTime timestamp;
 
-    public CustomErrorResponse() {
+    public CustomErrResponse() {
     }
 
-    public CustomErrorResponse(String errorCode, String errorMsg) {
-        this.errorCode = errorCode;
-        this.errorMsg = errorMsg;
+    public CustomErrResponse(String errorCode, String errorMsg) {
+        this.errCode = errCode;
+        this.errMsg = errMsg;
     }
 
-    public String getErrorCode() {
-        return errorCode;
+    public String getErrMsg() {
+        return errMsg;
     }
 
-    public void setErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public String getErrorMsg() {
-        return errorMsg;
-    }
-
-    public void setErrorMsg(String errorMsg) {
-        this.errorMsg = errorMsg;
+    public void setErrMsg(String errMsg) {
+        this.errMsg = errMsg;
     }
 
     public int getStatus() {
@@ -44,6 +36,14 @@ public class CustomErrorResponse {
         this.status = status;
     }
 
+    public String getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
+    }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
@@ -51,5 +51,4 @@ public class CustomErrorResponse {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
-
 }

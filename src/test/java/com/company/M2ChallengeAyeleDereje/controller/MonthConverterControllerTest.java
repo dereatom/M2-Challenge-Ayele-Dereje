@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -38,6 +42,20 @@ public class MonthConverterControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(outputJson));
     }
+
+//    @Test
+//    public void shouldReturn422Error() throws Exception{
+//        Month outputMonth = new Month();
+//        outputMonth.getMonthNumber();
+//
+//        String outputJson = mapper.writeValueAsString(outputMonth)
+//
+//        mockMvc.perform("")
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().json(outputJson));
+
+//    }
 
     @Test
     public void shouldReturnRandomMonth() throws Exception{

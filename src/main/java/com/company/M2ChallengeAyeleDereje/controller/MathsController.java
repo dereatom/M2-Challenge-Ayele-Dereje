@@ -11,6 +11,7 @@ public class MathsController {
   @ResponseStatus(value = HttpStatus.CREATED)
   public Maths createMathsAdd(@RequestBody Maths maths) {
     maths.setAnswer(maths.getOperand1() + maths.getOperand2());
+
     return maths;
   }
 
@@ -18,6 +19,10 @@ public class MathsController {
   @ResponseStatus(value = HttpStatus.CREATED)
   public Maths createMathsDivide(@RequestBody Maths divide) {
     divide.setAnswer(divide.getOperand1() / divide.getOperand2());
+    if(divide.getOperand2() == 0) {
+      throw new IllegalArgumentException("Denominator cannot be zero");
+    }
+
     return divide;
 
   }

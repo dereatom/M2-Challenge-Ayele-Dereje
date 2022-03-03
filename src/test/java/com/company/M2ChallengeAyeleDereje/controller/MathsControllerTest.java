@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,7 +37,7 @@ public class MathsControllerTest {
         inputMaths.setOperand1(100);
         inputMaths.setOperand2(200);
         inputMaths.setOperation("add");
-        inputMaths.setAnswer(300);
+
         String inputJson = mapper.writeValueAsString(inputMaths);
 
         Maths outputMaths = new Maths();
@@ -62,7 +63,7 @@ public class MathsControllerTest {
         inputMaths.setOperand1(500);
         inputMaths.setOperand2(250);
         inputMaths.setOperation("divide");
-        inputMaths.setAnswer(2);
+
         String inputJson = mapper.writeValueAsString(inputMaths);
 
         Maths outputMaths = new Maths();
@@ -84,13 +85,39 @@ public class MathsControllerTest {
     }
 
     @Test
+    public void shouldError422OutMissingOperandAdd() throws Exception{
+        Maths inputMath = new Maths();
+        inputMath.setOperand1(14);
+        inputMath.getOperand2();
+        inputMath.setOperation("add");
+        String outputJson = mapper.writeValueAsString(inputMath);
+
+        mockMvc.perform(post("/divide")
+                        .content(outputJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+
+                )
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void shouldReturnError422ForOperandZero() throws Exception {
+        assertThrows(ArithmeticException.class, () -> {
+
+            int answer = 10 / 0;
+        });
+
+    }
+
+    @Test
     public void shouldReturnNewMultiplyOnPostRequest() throws Exception{
 
         Maths inputMaths = new Maths();
         inputMaths.setOperand1(20);
         inputMaths.setOperand2(10);
         inputMaths.setOperation("multiply");
-        inputMaths.setAnswer(200);
+
         String inputJson = mapper.writeValueAsString(inputMaths);
 
         Maths outputMaths = new Maths();
@@ -117,7 +144,7 @@ public class MathsControllerTest {
         inputMaths.setOperand1(100);
         inputMaths.setOperand2(70);
         inputMaths.setOperation("subtract");
-        inputMaths.setAnswer(30);
+
         String inputJson = mapper.writeValueAsString(inputMaths);
 
         Maths outputMaths = new Maths();
